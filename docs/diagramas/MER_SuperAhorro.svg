@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="860" viewBox="0 0 1500 860" font-family="Segoe UI, Segoe UI Symbol, Cambria Math, Helvetica, Arial, sans-serif" fill="#0b0b0b">
+<rect width="1500" height="860" fill="#ffffff"/>
+<text x="40" y="48" text-anchor="start" font-size="24" font-weight="700">Diagrama Entidad-Relación (MER) — SuperAhorro</text><text x="40" y="74" text-anchor="start" font-size="14" fill="#52514e">Modelo conceptual del esquema global. Las relaciones M:N se implementan como las tablas inventario y detalle_venta.</text><line x1="40" y1="92" x2="1460" y2="92" stroke="#e1e0d9" stroke-width="1.5"/><g transform="translate(0,-130)"><line x1="260" y1="440" x2="750" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="750" y1="440" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="260" y1="440" x2="450" y2="650" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="450" y1="650" x2="750" y2="790" stroke="#0b0b0b" stroke-width="7"/>
+<line x1="450" y1="650" x2="750" y2="790" stroke="#fff" stroke-width="2.6"/>
+<line x1="750" y1="790" x2="1050" y2="650" stroke="#0b0b0b" stroke-width="7"/>
+<line x1="750" y1="790" x2="1050" y2="650" stroke="#fff" stroke-width="2.6"/>
+<line x1="1050" y1="650" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="110" y1="305" x2="260" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="265" y1="290" x2="260" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="415" y1="318" x2="260" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="95" y1="580" x2="260" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="255" y1="660" x2="260" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="1390" y1="305" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="1235" y1="290" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="1085" y1="318" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="1405" y1="580" x2="1240" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="665" y1="318" x2="750" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="835" y1="318" x2="750" y2="440" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="985" y1="785" x2="1050" y2="650" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="1165" y1="785" x2="1050" y2="650" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="565" y1="890" x2="750" y2="790" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="705" y1="925" x2="750" y2="790" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="850" y1="925" x2="750" y2="790" stroke="#0b0b0b" stroke-width="1.6"/>
+<line x1="995" y1="890" x2="750" y2="790" stroke="#0b0b0b" stroke-width="1.6"/>
+<ellipse cx="110" cy="305" rx="79" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="110" y="310" text-anchor="middle" font-size="14">id_sucursal</text><line x1="68.2" y1="314" x2="151.8" y2="314" stroke="#0b0b0b" stroke-width="1.3"/>
+<ellipse cx="265" cy="290" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="265" y="295" text-anchor="middle" font-size="14">nombre</text>
+<ellipse cx="415" cy="318" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="415" y="323" text-anchor="middle" font-size="14">ciudad</text>
+<ellipse cx="95" cy="580" rx="60" ry="22" stroke="#2a78d6" stroke-width="3" fill="#eaf2fc"/><text x="95" y="585" text-anchor="middle" font-size="14">region</text><text x="95" y="622" text-anchor="middle" font-size="12" fill="#2a78d6" font-weight="600">atributo de fragmentación</text>
+<ellipse cx="255" cy="660" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="255" y="665" text-anchor="middle" font-size="14">gerente</text>
+<ellipse cx="1390" cy="305" rx="79" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="1390" y="310" text-anchor="middle" font-size="14">id_producto</text><line x1="1348.2" y1="314" x2="1431.8" y2="314" stroke="#0b0b0b" stroke-width="1.3"/>
+<ellipse cx="1235" cy="290" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="1235" y="295" text-anchor="middle" font-size="14">nombre</text>
+<ellipse cx="1085" cy="318" rx="69" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="1085" y="323" text-anchor="middle" font-size="14">categoria</text>
+<ellipse cx="1405" cy="580" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="1405" y="585" text-anchor="middle" font-size="14">precio</text>
+<ellipse cx="665" cy="318" rx="74" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="665" y="323" text-anchor="middle" font-size="14">existencia</text>
+<ellipse cx="835" cy="318" rx="84" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="835" y="323" text-anchor="middle" font-size="14">stock_minimo</text>
+<ellipse cx="985" cy="785" rx="64" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="985" y="790" text-anchor="middle" font-size="14">cantidad</text>
+<ellipse cx="1165" cy="785" rx="88" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="1165" y="790" text-anchor="middle" font-size="14">precio_unitario</text>
+<ellipse cx="565" cy="890" rx="64" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="565" y="895" text-anchor="middle" font-size="14">id_venta</text><line x1="534.6" y1="899" x2="595.4" y2="899" stroke="#0b0b0b" stroke-width="1.3"/>
+<ellipse cx="705" cy="925" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="705" y="930" text-anchor="middle" font-size="14">fecha</text>
+<ellipse cx="850" cy="925" rx="60" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff" stroke-dasharray="6 4"/><text x="850" y="930" text-anchor="middle" font-size="14">total</text>
+<ellipse cx="995" cy="890" rx="79" ry="22" stroke="#0b0b0b" stroke-width="1.5" fill="#fff"/><text x="995" y="895" text-anchor="middle" font-size="14">metodo_pago</text>
+<rect x="165" y="408" width="190" height="64" fill="#fff" stroke="#0b0b0b" stroke-width="2.2"/><text x="260" y="446" text-anchor="middle" font-size="19" font-weight="700">SUCURSAL</text>
+<rect x="1145" y="408" width="190" height="64" fill="#fff" stroke="#0b0b0b" stroke-width="2.2"/><text x="1240" y="446" text-anchor="middle" font-size="19" font-weight="700">PRODUCTO</text>
+<rect x="655" y="758" width="190" height="64" fill="#fff" stroke="#0b0b0b" stroke-width="2.2"/><text x="750" y="796" text-anchor="middle" font-size="19" font-weight="700">VENTA</text>
+<polygon points="750,388 858,440 750,492 642,440" fill="#fff" stroke="#0b0b0b" stroke-width="2"/><text x="750" y="440" text-anchor="middle" font-size="15" font-weight="700">ALMACENA</text><text x="750" y="457" text-anchor="middle" font-size="11" fill="#898781">(inventario)</text>
+<polygon points="450,598 558,650 450,702 342,650" fill="#fff" stroke="#0b0b0b" stroke-width="2"/><text x="450" y="655" text-anchor="middle" font-size="15" font-weight="700">REALIZA</text>
+<polygon points="1050,598 1158,650 1050,702 942,650" fill="#fff" stroke="#0b0b0b" stroke-width="2"/><text x="1050" y="650" text-anchor="middle" font-size="15" font-weight="700">CONTIENE</text><text x="1050" y="667" text-anchor="middle" font-size="11" fill="#898781">(detalle_venta)</text>
+<text x="372" y="428" text-anchor="middle" font-size="17" font-weight="700">M</text>
+<text x="1128" y="428" text-anchor="middle" font-size="17" font-weight="700">N</text>
+<text x="330" y="512" text-anchor="middle" font-size="17" font-weight="700">1</text>
+<text x="628" y="724" text-anchor="middle" font-size="17" font-weight="700">N</text>
+<text x="872" y="722" text-anchor="middle" font-size="17" font-weight="700">N</text>
+<text x="1210" y="512" text-anchor="middle" font-size="17" font-weight="700">M</text><g font-size="12">
+    <rect x="1160" y="840" width="300" height="130" rx="6" fill="#fcfcfb" stroke="#e1e0d9"/>
+    <text x="1174" y="860" text-anchor="start" font-size="13" font-weight="700">Notación (Chen)</text>
+    <rect x="1174" y="872" width="26" height="14" fill="#fff" stroke="#0b0b0b" stroke-width="1.5"/>
+    <text x="1210" y="884" text-anchor="start" font-size="12">Entidad</text>
+    <polygon points="1187,894 1201,902 1187,910 1173,902" fill="#fff" stroke="#0b0b0b" stroke-width="1.5"/>
+    <text x="1210" y="906" text-anchor="start" font-size="12">Relación</text>
+    <ellipse cx="1187" cy="924" rx="13" ry="8" fill="#fff" stroke="#0b0b0b" stroke-width="1.5"/>
+    <text x="1210" y="928" text-anchor="start" font-size="12">Atributo (subrayado = llave)</text>
+    <ellipse cx="1187" cy="946" rx="13" ry="8" fill="#fff" stroke="#0b0b0b" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="1210" y="950" text-anchor="start" font-size="12">Atributo derivado</text>
+    <line x1="1320" y1="880" x2="1350" y2="880" stroke="#0b0b0b" stroke-width="6"/>
+    <line x1="1320" y1="880" x2="1350" y2="880" stroke="#fff" stroke-width="2.2"/>
+    <text x="1358" y="884" text-anchor="start" font-size="12">Participación</text>
+    <text x="1358" y="898" text-anchor="start" font-size="12">total</text>
+  </g></g>
+</svg>

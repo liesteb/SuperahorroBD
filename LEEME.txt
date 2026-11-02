@@ -1,0 +1,50 @@
+Base de datos distribuida SuperAhorro
+=====================================
+3 nodos regionales (Norte, Centro, Sur) con fragmentacion horizontal,
+1 nodo central con postgres_fdw y un panel web.
+Documentacion (carpeta docs):
+  Propuesta_Fragmentacion_Horizontal.pdf  propuesta formal de fragmentacion
+  DISENO.md                               diseno completo del sistema
+  diagramas\MER_SuperAhorro.png           diagrama entidad-relacion (Chen)
+  diagramas\Modelo_Relacional.png         tablas, llaves y cardinalidades
+  diagramas\Fragmentacion_Asignacion.png  fragmentos y su nodo
+  (tambien en .svg). Para regenerarlos si cambia el esquema:
+      powershell -ExecutionPolicy Bypass -File docs\fuentes\exportar.ps1
+
+CON DOCKER (automatico)
+1. docker compose up -d --build --wait   (en la carpeta de este archivo)
+   Cada nodo crea sus tablas y carga sus datos al arrancar (scripts 01 y 02).
+   El central espera a los 3 regionales y ejecuta 03_central.sql y 06_escrituras_central.sql.
+2. Panel web:  http://localhost:8080
+3. Conectarse desde DBeaver o pgAdmin (usuario postgres, password admin):
+     nodo_norte   -> localhost:5433
+     nodo_centro  -> localhost:5434
+     nodo_sur     -> localhost:5435
+     nodo_central -> localhost:5436
+4. Pruebas (PowerShell):  powershell -ExecutionPolicy Bypass -File .\probar.ps1
+   Corre 04_consultas, 05_pruebas, 07_pruebas_escritura y la demostracion de
+   nodo caido (apaga nodo_sur unos segundos y lo vuelve a encender).
+   Sin la demostracion de fallo:  .\probar.ps1 -SinFallo
+   Tambien se pueden abrir los scripts 04, 05 y 07 en DBeaver sobre nodo_central.
+
+Si algun puerto ya esta ocupado, cambiarlo antes de levantar (PowerShell):
+    $env:PUERTO_NORTE=5441; $env:PUERTO_CENTRO=5442; $env:PUERTO_SUR=5443; $env:PUERTO_CENTRAL=5444; $env:PUERTO_PANEL=8081
+    docker compose up -d --build --wait
+
+Apagar:                         docker compose down
+Empezar desde cero (borra datos): docker compose down -v   y volver a levantar.
+
+SIN DOCKER (manual)
+Crear las 4 bases en un solo PostgreSQL (CREATE DATABASE nodo_norte; etc.)
+1. En nodo_norte:   01_esquema_norte.sql y luego 02_datos_norte.sql
+2. En nodo_centro:  01_esquema_centro.sql y luego 02_datos_centro.sql
+3. En nodo_sur:     01_esquema_sur.sql y luego 02_datos_sur.sql
+4. En nodo_central: 03_central.sql y luego 06_escrituras_central.sql
+   (antes cambiar en 03 host 'nodo_norte' (y los otros dos) por host 'localhost'
+    y password 'admin' por la contrasena real de postgres)
+5. En nodo_central: 04_consultas.sql, 05_pruebas.sql y 07_pruebas_escritura.sql
+6. Panel web (requiere Node.js 18+):
+     cd app
+     npm install
+     $env:PGPORT=5432; $env:PGPASSWORD='tu_contrasena'; npm start
+   y abrir http://localhost:3000

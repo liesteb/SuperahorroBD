@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Propuesta de fragmentación horizontal — SuperAhorro</title>
+<style>
+  @page { size: letter; margin: 2.2cm 2.2cm 2.4cm; }
+  :root { --tinta: #0b0b0b; --tinta2: #52514e; --tenue: #898781; --reticula: #e1e0d9; --claro: #f4f3ef;
+          --norte: #2a78d6; --centro: #eb6834; --sur: #1baf7a; }
+  * { box-sizing: border-box; }
+  body { font-family: Cambria, Georgia, "Times New Roman", serif; font-size: 11.5pt; line-height: 1.5; color: var(--tinta); margin: 0; }
+  h1, h2, h3, .portada, th, figcaption, .etq { font-family: "Segoe UI", Helvetica, Arial, sans-serif; }
+  h2 { font-size: 15pt; margin: 26pt 0 8pt; padding-bottom: 4pt; border-bottom: 1.5pt solid var(--tinta); break-after: avoid; }
+  h3 { font-size: 12pt; margin: 16pt 0 6pt; break-after: avoid; }
+  p { margin: 0 0 8pt; text-align: justify; }
+  code, .mono { font-family: Consolas, "Cascadia Mono", monospace; font-size: 10pt; }
+  .formula { font-family: Cambria, "Cambria Math", serif; font-size: 12pt; text-align: center; margin: 8pt 0 10pt; }
+  .formula div { margin: 2pt 0; }
+  table { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt; font-size: 10pt; break-inside: avoid; }
+  th { text-align: left; font-size: 9.5pt; font-weight: 600; background: var(--claro); padding: 5pt 7pt; border-bottom: 1pt solid var(--tinta); }
+  td { padding: 4pt 7pt; border-bottom: 0.6pt solid var(--reticula); vertical-align: top; }
+  td.c, th.c { text-align: center; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .si { color: #006300; font-weight: 700; }
+  .no { color: var(--tenue); }
+  figure { margin: 10pt 0 14pt; break-inside: avoid; }
+  figure img { width: 100%; border: 0.6pt solid var(--reticula); }
+  figcaption { font-size: 9pt; color: var(--tinta2); margin-top: 4pt; text-align: center; }
+  pre { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9pt; line-height: 1.4; background: var(--claro);
+        border-left: 3pt solid var(--tinta); padding: 8pt 10pt; margin: 6pt 0 12pt; white-space: pre-wrap; break-inside: avoid; }
+  .nota { font-size: 10pt; color: var(--tinta2); border-left: 3pt solid var(--reticula); padding: 2pt 0 2pt 10pt; margin: 8pt 0 12pt; }
+  .r { display: inline-block; width: 8pt; height: 8pt; border-radius: 50%; margin-right: 4pt; vertical-align: 0; }
+  .salto { break-before: page; }
+
+  /* Portada */
+  .portada { height: 22.5cm; display: flex; flex-direction: column; justify-content: space-between; }
+  .portada .marca { font-size: 11pt; letter-spacing: 2pt; text-transform: uppercase; color: var(--tinta2); }
+  .portada h1 { font-size: 30pt; line-height: 1.1; margin: 10pt 0 8pt; letter-spacing: -0.5pt; }
+  .portada .sub { font-size: 15pt; color: var(--tinta2); margin: 0; text-align: left; }
+  .portada .barras { display: flex; gap: 6pt; margin: 22pt 0; }
+  .portada .barras span { height: 6pt; flex: 1; border-radius: 3pt; }
+  .portada dl { display: grid; grid-template-columns: 3.4cm 1fr; gap: 10pt 12pt; font-size: 11pt; margin: 0; }
+  .portada dt { color: var(--tinta2); }
+  .portada dd { margin: 0; border-bottom: 0.8pt solid var(--tinta); min-height: 16pt; }
+  .indice { font-size: 10.5pt; columns: 2; column-gap: 1cm; margin: 0; padding-left: 14pt; }
+</style>
+</head>
+<body>
+
+<!-- ============================== PORTADA ============================== -->
+<section class="portada">
+  <div>
+    <div class="marca">Bases de Datos Distribuidas</div>
+    <h1>Propuesta de fragmentación horizontal</h1>
+    <p class="sub">Base de datos distribuida de la cadena de supermercados SuperAhorro</p>
+    <div class="barras"><span style="background:var(--norte)"></span><span style="background:var(--centro)"></span><span style="background:var(--sur)"></span></div>
+    <ol class="indice">
+      <li>Introducción y objetivo</li>
+      <li>Esquema global</li>
+      <li>Información para el diseño</li>
+      <li>Fragmentación horizontal primaria</li>
+      <li>Fragmentación horizontal derivada</li>
+      <li>Tratamiento de PRODUCTO: replicación</li>
+      <li>Alternativas evaluadas</li>
+      <li>Verificación de la corrección</li>
+      <li>Asignación a nodos</li>
+      <li>Implementación</li>
+      <li>Conclusiones</li>
+    </ol>
+  </div>
+  <dl>
+    <dt>Materia</dt><dd></dd>
+    <dt>Profesor(a)</dt><dd></dd>
+    <dt>Integrantes</dt><dd></dd>
+    <dt></dt><dd></dd>
+    <dt>Fecha</dt><dd>Noviembre de 2026</dd>
+  </dl>
+</section>
+
+<!-- ============================== 1 ============================== -->
+<h2 class="salto">1. Introducción y objetivo</h2>
+<p>SuperAhorro es una cadena de supermercados con nueve sucursales distribuidas en tres regiones del país: <b>Norte</b> (Mexicali, Tijuana y Monterrey), <b>Centro</b> (Ciudad de México, Guadalajara y Querétaro) y <b>Sur</b> (Mérida, Oaxaca y Cancún). La operación diaria de cada sucursal —registrar ventas, consultar precios y controlar existencias— solo involucra datos de su propia región. En cambio, el corporativo necesita consultas sobre toda la cadena.</p>
+<p>El objetivo de este documento es proponer y justificar una <b>fragmentación horizontal</b> del esquema global y su <b>asignación</b> a tres nodos regionales. La propuesta busca que la mayoría de los accesos se resuelvan localmente, que los fragmentos cumplan las reglas de completitud, reconstrucción y disyunción, y que un nodo central pueda reconstruir las relaciones globales para los reportes corporativos.</p>
+
+<!-- ============================== 2 ============================== -->
+<h2>2. Esquema global</h2>
+<p>El modelo conceptual tiene tres entidades: SUCURSAL, PRODUCTO y VENTA. Tiene además dos relaciones de muchos a muchos con atributos propios: ALMACENA, que da lugar a la tabla <code>inventario</code>, y CONTIENE, que da lugar a <code>detalle_venta</code>. La relación REALIZA es de uno a muchos: toda venta pertenece exactamente a una sucursal.</p>
+<figure>
+  <img src="../diagramas/MER_SuperAhorro.svg" alt="Diagrama entidad-relación de SuperAhorro">
+  <figcaption>Figura 1. Diagrama entidad-relación (notación de Chen). El atributo <i>region</i> es el atributo de fragmentación.</figcaption>
+</figure>
+<figure>
+  <img src="../diagramas/Modelo_Relacional.svg" alt="Modelo relacional de SuperAhorro">
+  <figcaption>Figura 2. Modelo relacional del esquema global con llaves primarias, foráneas y cardinalidades.</figcaption>
+</figure>
+<table>
+  <tr><th>Relación</th><th>Descripción</th><th class="n">Tuplas</th></tr>
+  <tr><td class="mono">SUCURSAL</td><td>Tiendas de la cadena y su región</td><td class="n">9</td></tr>
+  <tr><td class="mono">PRODUCTO</td><td>Catálogo único de productos con su precio</td><td class="n">30</td></tr>
+  <tr><td class="mono">INVENTARIO</td><td>Existencia y stock mínimo de cada producto en cada sucursal</td><td class="n">270</td></tr>
+  <tr><td class="mono">VENTA</td><td>Encabezado de cada venta: sucursal, fecha, total y método de pago</td><td class="n">1 800</td></tr>
+  <tr><td class="mono">DETALLE_VENTA</td><td>Productos, cantidades y precio unitario de cada venta</td><td class="n">4 499</td></tr>
+</table>
+
+<!-- ============================== 3 ============================== -->
+<h2>3. Información para el diseño</h2>
+<h3>3.1 Aplicaciones</h3>
+<p>Los supuestos de diseño sobre las aplicaciones que usan la base de datos son los siguientes:</p>
+<table>
+  <tr><th>Aplicación</th><th>Se origina en</th><th>Datos que usa</th><th>Predicado que aplica</th></tr>
+  <tr><td><b>A1.</b> Punto de venta</td><td>Cada región</td><td>SUCURSAL, VENTA, DETALLE_VENTA, PRODUCTO e INVENTARIO de sus propias sucursales</td><td><code>region = 'Norte' | 'Centro' | 'Sur'</code></td></tr>
+  <tr><td><b>A2.</b> Control de inventario</td><td>Cada región</td><td>INVENTARIO de las sucursales de la región</td><td><code>region = …</code></td></tr>
+  <tr><td><b>A3.</b> Reportes corporativos</td><td>Nodo central</td><td>Todas las relaciones, agregadas por región, mes o producto</td><td>Ninguno: lee toda la cadena</td></tr>
+</table>
+<p>A1 y A2 generan la gran mayoría de los accesos y siempre filtran por las sucursales de <i>una sola</i> región. A3 es menos frecuente y necesita la unión de todas las regiones. Por eso conviene fragmentar por región y reconstruir solo para A3.</p>
+
+<h3>3.2 Predicados simples</h3>
+<p>Los predicados simples que aparecen en las aplicaciones sobre la relación SUCURSAL son:</p>
+<div class="formula">
+  <div>p<sub>1</sub>: region = 'Norte' &nbsp;&nbsp;&nbsp; p<sub>2</sub>: region = 'Centro' &nbsp;&nbsp;&nbsp; p<sub>3</sub>: region = 'Sur'</div>
+</div>
+<p>El dominio del atributo <i>region</i> es {Norte, Centro, Sur}. Lo garantizan las restricciones de cada nodo y la validación del nodo central, que rechaza cualquier otra región.</p>
+
+<!-- ============================== 4 ============================== -->
+<h2>4. Fragmentación horizontal primaria de SUCURSAL</h2>
+<h3>4.1 Completitud y minimalidad del conjunto de predicados</h3>
+<p>Sea <i>Pr</i> = {p<sub>1</sub>, p<sub>2</sub>, p<sub>3</sub>}.</p>
+<ul>
+  <li><b>Completo.</b> Dentro de cada fragmento que genera, todas las tuplas tienen la misma probabilidad de ser accedidas por cualquier aplicación: la aplicación de una región usa todas las sucursales de esa región, y ninguna aplicación distingue entre sucursales de una misma región.</li>
+  <li><b>Mínimo.</b> Cada predicado es <i>relevante</i>, porque separa tuplas que las aplicaciones acceden de forma distinta. Si se quita p<sub>1</sub>, por ejemplo, las sucursales del Norte quedarían en el mismo fragmento que las de otra región, aunque las acceden aplicaciones diferentes.</li>
+</ul>
+<p>Es decir, <i>Pr</i> es el resultado que se obtiene con el algoritmo COM_MIN.</p>
+
+<h3>4.2 Predicados minitérmino</h3>
+<p>Con tres predicados hay 2<sup>3</sup> = 8 minitérminos posibles. Las implicaciones p<sub>i</sub> ⇒ ¬p<sub>j</sub> (i ≠ j), es decir, que una sucursal tiene una sola región, y el dominio cerrado de <i>region</i> eliminan cinco de ellos:</p>
+<table>
+  <tr><th>Minitérmino</th><th>Expresión</th><th>Resultado</th><th class="c">¿Se conserva?</th></tr>
+  <tr><td>m<sub>1</sub></td><td>p<sub>1</sub> ∧ p<sub>2</sub> ∧ p<sub>3</sub></td><td>Contradictorio</td><td class="c no">No</td></tr>
+  <tr><td>m<sub>2</sub></td><td>p<sub>1</sub> ∧ p<sub>2</sub> ∧ ¬p<sub>3</sub></td><td>Contradictorio</td><td class="c no">No</td></tr>
+  <tr><td>m<sub>3</sub></td><td>p<sub>1</sub> ∧ ¬p<sub>2</sub> ∧ p<sub>3</sub></td><td>Contradictorio</td><td class="c no">No</td></tr>
+  <tr><td>m<sub>4</sub></td><td>p<sub>1</sub> ∧ ¬p<sub>2</sub> ∧ ¬p<sub>3</sub></td><td>≡ region = 'Norte'</td><td class="c si">Sí</td></tr>
+  <tr><td>m<sub>5</sub></td><td>¬p<sub>1</sub> ∧ p<sub>2</sub> ∧ p<sub>3</sub></td><td>Contradictorio</td><td class="c no">No</td></tr>
+  <tr><td>m<sub>6</sub></td><td>¬p<sub>1</sub> ∧ p<sub>2</sub> ∧ ¬p<sub>3</sub></td><td>≡ region = 'Centro'</td><td class="c si">Sí</td></tr>
+  <tr><td>m<sub>7</sub></td><td>¬p<sub>1</sub> ∧ ¬p<sub>2</sub> ∧ p<sub>3</sub></td><td>≡ region = 'Sur'</td><td class="c si">Sí</td></tr>
+  <tr><td>m<sub>8</sub></td><td>¬p<sub>1</sub> ∧ ¬p<sub>2</sub> ∧ ¬p<sub>3</sub></td><td>Vacío: no hay otra región en el dominio</td><td class="c no">No</td></tr>
+</table>
+
+<h3>4.3 Fragmentos resultantes</h3>
+<div class="formula">
+  <div>SUCURSAL<sub>N</sub> = σ<sub>region = 'Norte'</sub> (SUCURSAL)</div>
+  <div>SUCURSAL<sub>C</sub> = σ<sub>region = 'Centro'</sub> (SUCURSAL)</div>
+  <div>SUCURSAL<sub>S</sub> = σ<sub>region = 'Sur'</sub> (SUCURSAL)</div>
+</div>
+<table>
+  <tr><th>Fragmento</th><th>Sucursales (id · ciudad)</th><th class="n">Tuplas</th></tr>
+  <tr><td><span class="r" style="background:var(--norte)"></span>SUCURSAL<sub>N</sub></td><td>100 Mexicali · 101 Tijuana · 102 Monterrey</td><td class="n">3</td></tr>
+  <tr><td><span class="r" style="background:var(--centro)"></span>SUCURSAL<sub>C</sub></td><td>200 CDMX · 201 Guadalajara · 202 Querétaro</td><td class="n">3</td></tr>
+  <tr><td><span class="r" style="background:var(--sur)"></span>SUCURSAL<sub>S</sub></td><td>300 Mérida · 301 Oaxaca · 302 Cancún</td><td class="n">3</td></tr>
+</table>
+
+<h3>4.4 Predicados equivalentes sobre la llave</h3>
+<p>Para que el nodo de cada tupla se deduzca solo de su llave, a cada región se le asigna un rango de identificadores. Así, cada minitérmino tiene un predicado equivalente sobre la llave primaria:</p>
+<table>
+  <tr><th>Región</th><th>Predicado de región</th><th>Equivalente sobre id_sucursal</th><th>Rango de id_venta</th></tr>
+  <tr><td>Norte</td><td><code>region = 'Norte'</code></td><td><code>id_sucursal BETWEEN 100 AND 199</code></td><td><code>1 000 000 – 1 999 999</code></td></tr>
+  <tr><td>Centro</td><td><code>region = 'Centro'</code></td><td><code>id_sucursal BETWEEN 200 AND 299</code></td><td><code>2 000 000 – 2 999 999</code></td></tr>
+  <tr><td>Sur</td><td><code>region = 'Sur'</code></td><td><code>id_sucursal BETWEEN 300 AND 399</code></td><td><code>3 000 000 – 3 999 999</code></td></tr>
+</table>
+<p>Ambos predicados se imponen con restricciones <code>CHECK</code> en cada nodo. El optimizador del nodo central también los usa para <i>localizar</i> las consultas (sección 10).</p>
+
+<!-- ============================== 5 ============================== -->
+<h2>5. Fragmentación horizontal derivada</h2>
+<h3>5.1 Vínculos entre relaciones</h3>
+<table>
+  <tr><th>Vínculo</th><th>Propietario</th><th>Miembro</th><th>Atributo de join</th><th class="c">¿Se usa para fragmentar?</th></tr>
+  <tr><td>L<sub>1</sub></td><td>SUCURSAL</td><td>INVENTARIO</td><td><code>id_sucursal</code></td><td class="c si">Sí</td></tr>
+  <tr><td>L<sub>2</sub></td><td>SUCURSAL</td><td>VENTA</td><td><code>id_sucursal</code></td><td class="c si">Sí</td></tr>
+  <tr><td>L<sub>3</sub></td><td>VENTA</td><td>DETALLE_VENTA</td><td><code>id_venta</code></td><td class="c si">Sí</td></tr>
+  <tr><td>L<sub>4</sub></td><td>PRODUCTO</td><td>INVENTARIO</td><td><code>id_producto</code></td><td class="c no">No</td></tr>
+  <tr><td>L<sub>5</sub></td><td>PRODUCTO</td><td>DETALLE_VENTA</td><td><code>id_producto</code></td><td class="c no">No</td></tr>
+</table>
+
+<h3>5.2 Elección del propietario</h3>
+<p>INVENTARIO y DETALLE_VENTA tienen dos propietarios posibles cada una. Se eligió SUCURSAL para INVENTARIO y VENTA para DETALLE_VENTA, con dos criterios:</p>
+<ol>
+  <li><b>Uso por las aplicaciones.</b> A1 y A2 siempre acceden al inventario y al detalle <i>a través</i> de la sucursal o de la venta, nunca a través del producto.</li>
+  <li><b>Características del join.</b> PRODUCTO se replica completo (sección 6), así que los joins con PRODUCTO ya son locales en cualquier nodo y no conviene fragmentar a partir de él.</li>
+</ol>
+
+<h3>5.3 Fragmentos derivados</h3>
+<div class="formula">
+  <div>INVENTARIO<sub>i</sub> = INVENTARIO ⋉<sub>id_sucursal</sub> SUCURSAL<sub>i</sub></div>
+  <div>VENTA<sub>i</sub> = VENTA ⋉<sub>id_sucursal</sub> SUCURSAL<sub>i</sub></div>
+  <div>DETALLE<sub>i</sub> = DETALLE_VENTA ⋉<sub>id_venta</sub> VENTA<sub>i</sub> &nbsp;&nbsp;(derivada de segundo nivel)</div>
+  <div style="font-size:10.5pt;color:var(--tinta2)">i ∈ {N, C, S}</div>
+</div>
+<table>
+  <tr><th>Relación</th><th class="n">Norte</th><th class="n">Centro</th><th class="n">Sur</th><th class="n">Total</th></tr>
+  <tr><td>INVENTARIO</td><td class="n">90</td><td class="n">90</td><td class="n">90</td><td class="n">270</td></tr>
+  <tr><td>VENTA</td><td class="n">600</td><td class="n">600</td><td class="n">600</td><td class="n">1 800</td></tr>
+  <tr><td>DETALLE_VENTA</td><td class="n">1 488</td><td class="n">1 484</td><td class="n">1 527</td><td class="n">4 499</td></tr>
+</table>
+
+<h3>5.4 Grafo de joins</h3>
+<p>Cada tupla de VENTA referencia exactamente una sucursal (llave foránea no nula), así que cada fragmento VENTA<sub>i</sub> solo hace join con SUCURSAL<sub>i</sub>. Lo mismo pasa con INVENTARIO y DETALLE_VENTA. El grafo de joins es <b>simple y particionado</b>, y por lo tanto un join global se descompone en tres joins locales que se ejecutan en paralelo:</p>
+<div class="formula">
+  <div>VENTA ⋈ SUCURSAL = (VENTA<sub>N</sub> ⋈ SUCURSAL<sub>N</sub>) ∪ (VENTA<sub>C</sub> ⋈ SUCURSAL<sub>C</sub>) ∪ (VENTA<sub>S</sub> ⋈ SUCURSAL<sub>S</sub>)</div>
+</div>
+
+<!-- ============================== 6 ============================== -->
+<h2>6. Tratamiento de PRODUCTO: replicación</h2>
+<p>No se propone fragmentar PRODUCTO. Todas las regiones venden el catálogo completo, así que ningún predicado separa productos que se accedan de forma distinta, y cualquier fragmento resultaría irrelevante. Además, PRODUCTO se lee en cada venta y en cada consulta de inventario, y se modifica poco (altas de productos y cambios de precio).</p>
+<p>Por eso se <b>replica completo en los tres nodos</b>. Las lecturas usan la copia local; las escrituras se aplican a las tres copias en una sola transacción (estrategia <i>Read One, Write All</i>).</p>
+
+<!-- ============================== 7 ============================== -->
+<h2>7. Alternativas evaluadas</h2>
+<table>
+  <tr><th style="width:30%">Alternativa</th><th>Motivo para descartarla</th></tr>
+  <tr><td>Fragmentar SUCURSAL por <i>ciudad</i> (9 fragmentos)</td><td>Viola la minimalidad: ninguna aplicación distingue entre ciudades de una misma región, así que esos predicados no son relevantes. Además, habría más fragmentos que nodos.</td></tr>
+  <tr><td>Fragmentar VENTA por <i>fecha</i> (mes o trimestre)</td><td>No aporta localidad: cada región consulta ventas de todos los meses, y los joins con SUCURSAL dejarían de ser locales.</td></tr>
+  <tr><td>Fragmentar PRODUCTO por <i>categoría</i></td><td>Las categorías no corresponden a ningún sitio: todas las regiones venden todas las categorías.</td></tr>
+  <tr><td>INVENTARIO derivado de PRODUCTO</td><td>Rompe la localidad del join inventario ⋈ sucursal, que es justamente el que usa A2.</td></tr>
+  <tr><td>Fragmentación vertical</td><td>Las aplicaciones usan todos los atributos de cada relación juntos. Separar columnas obligaría a reconstruir con joins en casi todos los accesos.</td></tr>
+</table>
+
+<!-- ============================== 8 ============================== -->
+<h2>8. Verificación de la corrección</h2>
+<h3>8.1 Argumento</h3>
+<ul>
+  <li><b>Completitud.</b> Los minitérminos m<sub>4</sub>, m<sub>6</sub> y m<sub>7</sub> cubren todo el dominio de <i>region</i>, así que toda sucursal está en algún fragmento. En las derivadas, la llave foránea no nula garantiza que toda venta, inventario y detalle tiene un propietario, y por lo tanto un fragmento.</li>
+  <li><b>Reconstrucción.</b> Para toda relación R fragmentada, R = R<sub>N</sub> ∪ R<sub>C</sub> ∪ R<sub>S</sub>.</li>
+  <li><b>Disyunción.</b> Los minitérminos son mutuamente excluyentes. En las derivadas, cada tupla miembro referencia un solo propietario, así que pertenece a un solo fragmento. Como no hay duplicados, la unión se implementa con <code>UNION ALL</code>, que es más barata.</li>
+</ul>
+
+<h3>8.2 Resultados de las pruebas</h3>
+<p>Las pruebas de <code>scripts/05_pruebas.sql</code> se ejecutaron sobre los datos cargados:</p>
+<table>
+  <tr><th>Prueba</th><th>Regla</th><th>Esperado</th><th>Obtenido</th></tr>
+  <tr><td>P1 · Σ fragmentos = global</td><td>Completitud</td><td>Iguales</td><td>9 = 9 · 270 = 270 · 1 800 = 1 800 · 4 499 = 4 499</td></tr>
+  <tr><td>P2 · Ventas y detalles huérfanos</td><td>Completitud de la derivada</td><td>0 y 0</td><td>0 y 0</td></tr>
+  <tr><td>P3 · UNION = UNION ALL</td><td>Reconstrucción y disyunción</td><td>Iguales</td><td>1 800 = 1 800</td></tr>
+  <tr><td>P4 · Ids repetidos entre fragmentos</td><td>Disyunción</td><td>0 renglones</td><td>0 renglones</td></tr>
+  <tr><td>P5 · Ventas en un nodo de otra región</td><td>Corrección de la derivada</td><td>0 · 0 · 0</td><td>0 · 0 · 0</td></tr>
+  <tr><td>P6 · Diferencias entre copias de PRODUCTO</td><td>Consistencia de la réplica</td><td>0 y 0</td><td>0 y 0</td></tr>
+  <tr><td>P7 · Insertar una sucursal del Sur en el nodo Norte</td><td>Restricción del fragmento</td><td>Error</td><td>Error <code>ck_sucursal_n_region</code></td></tr>
+</table>
+
+<!-- ============================== 9 ============================== -->
+<h2>9. Asignación a nodos</h2>
+<p>Cada fragmento se asigna al nodo de la región donde se genera y se usa. Así, A1 y A2 trabajan sin salir de su nodo. La asignación no es redundante, salvo PRODUCTO, que se replica a propósito. El nodo central no almacena datos de negocio: solo tiene las tablas foráneas, las vistas de reconstrucción y el catálogo de localización.</p>
+<figure>
+  <img src="../diagramas/Fragmentacion_Asignacion.svg" alt="Fragmentación y asignación a nodos">
+  <figcaption>Figura 3. Fragmentos, su definición y su asignación a los nodos de la base distribuida.</figcaption>
+</figure>
+<table>
+  <tr><th>Fragmento</th><th class="c">nodo_norte</th><th class="c">nodo_centro</th><th class="c">nodo_sur</th><th class="c">nodo_central</th></tr>
+  <tr><td>SUCURSAL<sub>N</sub>, INVENTARIO<sub>N</sub>, VENTA<sub>N</sub>, DETALLE<sub>N</sub></td><td class="c si">✔</td><td></td><td></td><td class="c no">vista</td></tr>
+  <tr><td>SUCURSAL<sub>C</sub>, INVENTARIO<sub>C</sub>, VENTA<sub>C</sub>, DETALLE<sub>C</sub></td><td></td><td class="c si">✔</td><td></td><td class="c no">vista</td></tr>
+  <tr><td>SUCURSAL<sub>S</sub>, INVENTARIO<sub>S</sub>, VENTA<sub>S</sub>, DETALLE<sub>S</sub></td><td></td><td></td><td class="c si">✔</td><td class="c no">vista</td></tr>
+  <tr><td>PRODUCTO (réplica completa)</td><td class="c si">✔</td><td class="c si">✔</td><td class="c si">✔</td><td class="c no">vista</td></tr>
+</table>
+
+<!-- ============================== 10 ============================== -->
+<h2>10. Implementación</h2>
+<p>La propuesta está implementada en PostgreSQL 16 con cuatro contenedores Docker. Cada nodo regional crea sus fragmentos con las restricciones del predicado. El fragmento SUCURSAL<sub>N</sub> y su derivado VENTA<sub>N</sub>:</p>
+<pre>CREATE TABLE sucursal_n (
+    id_sucursal  INT PRIMARY KEY,
+    nombre       VARCHAR(60) NOT NULL,
+    ciudad       VARCHAR(40) NOT NULL,
+    region       VARCHAR(10) NOT NULL,
+    gerente      VARCHAR(60),
+    CONSTRAINT ck_sucursal_n_region CHECK (region = 'Norte'),
+    CONSTRAINT ck_sucursal_n_rango  CHECK (id_sucursal BETWEEN 100 AND 199)
+);
+
+-- Derivado: la llave foranea local obliga a que la venta este en el nodo de su sucursal
+CREATE TABLE venta_n (
+    id_venta     INT PRIMARY KEY,
+    id_sucursal  INT NOT NULL REFERENCES sucursal_n(id_sucursal),
+    ...
+    CONSTRAINT ck_venta_n_rango CHECK (id_venta BETWEEN 1000000 AND 1999999)
+);</pre>
+<p>El nodo central accede a los fragmentos con <code>postgres_fdw</code> y define una vista de reconstrucción por relación:</p>
+<pre>CREATE VIEW venta AS
+    SELECT * FROM norte.venta_n
+    UNION ALL SELECT * FROM centro.venta_c
+    UNION ALL SELECT * FROM sur.venta_s;
+
+-- Localizacion: el optimizador descarta los fragmentos que no pueden tener los datos
+ALTER FOREIGN TABLE norte.venta_n ADD CONSTRAINT loc_ven_n
+    CHECK (id_sucursal BETWEEN 100 AND 199 AND id_venta BETWEEN 1000000 AND 1999999);</pre>
+<p>Con esas restricciones, una consulta sobre la vista global que filtra por una sucursal se envía solo al nodo que la contiene:</p>
+<pre>EXPLAIN SELECT COUNT(*), SUM(total) FROM venta WHERE id_sucursal = 100;
+
+Aggregate
+  ->  Foreign Scan on norte.venta_n
+        Remote SQL: SELECT total FROM public.venta_n WHERE ((id_sucursal = 100))</pre>
+<p class="nota">Los scripts completos están en la carpeta <code>scripts/</code> del proyecto: <code>01_esquema_*.sql</code> (fragmentos), <code>02_datos_*.sql</code> (datos), <code>03_central.sql</code> (reconstrucción y localización) y <code>05_pruebas.sql</code> (verificación).</p>
+
+<!-- ============================== 11 ============================== -->
+<h2>11. Conclusiones</h2>
+<p>La propuesta fragmenta SUCURSAL horizontalmente con el conjunto completo y mínimo de predicados {region = 'Norte', region = 'Centro', region = 'Sur'}, que da tres minitérminos válidos. A partir de ella se derivan los fragmentos de INVENTARIO, VENTA y DETALLE_VENTA (este último de segundo nivel), y PRODUCTO se replica en los tres nodos.</p>
+<p>Con este diseño, las operaciones de cada región, que son la mayoría de los accesos, se resuelven en un solo nodo, y los joins entre relaciones relacionadas son locales gracias a que el grafo de joins es simple. El nodo central reconstruye las relaciones globales para los reportes corporativos sin duplicar datos. Las pruebas de completitud, reconstrucción y disyunción confirman que la fragmentación es correcta.</p>
+
+</body>
+</html>

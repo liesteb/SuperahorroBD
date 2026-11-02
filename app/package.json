@@ -1,0 +1,13 @@
+{
+  "name": "superahorro-panel",
+  "version": "1.0.0",
+  "description": "Panel web de la base de datos distribuida SuperAhorro (se conecta al nodo central)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}

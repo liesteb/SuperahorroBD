@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SuperAhorro · Panel de la base distribuida</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="marca">
+      <span class="marca-logo" aria-hidden="true">S/A</span>
+      <div>
+        <h1>SuperAhorro</h1>
+        <p>Base de datos distribuida · 3 nodos regionales + 1 central</p>
+      </div>
+    </div>
+    <div class="cabecera-estado">
+      <span id="reloj" class="mono"></span>
+      <button id="btn-recargar" class="btn btn-fantasma" type="button">Recargar</button>
+    </div>
+  </header>
+
+  <main class="rejilla">
+    <!-- Topologia -->
+    <section class="panel panel-topologia" aria-labelledby="t-topologia">
+      <div class="panel-cabeza">
+        <h2 id="t-topologia">Topología</h2>
+        <span class="nota">Estado en vivo cada 5 s · el panel solo habla con el nodo central</span>
+      </div>
+      <div id="topologia" class="topologia">
+        <svg id="aristas" class="aristas" aria-hidden="true"></svg>
+        <article class="nodo nodo-central" data-nodo="Central">
+          <div class="nodo-linea">
+            <span class="nodo-nombre mono">nodo_central</span>
+            <span class="pildora pildora-ok"><i aria-hidden="true">●</i> Activo</span>
+          </div>
+          <p class="nodo-sub">postgres_fdw · vistas globales</p>
+          <p class="nodo-vistas mono">sucursal · venta · detalle_venta · inventario · producto</p>
+        </article>
+        <article class="nodo nodo-region" data-nodo="Norte"></article>
+        <article class="nodo nodo-region" data-nodo="Centro"></article>
+        <article class="nodo nodo-region" data-nodo="Sur"></article>
+      </div>
+    </section>
+
+    <!-- Plan de consulta -->
+    <section class="panel panel-plan" aria-labelledby="t-plan">
+      <div class="panel-cabeza">
+        <h2 id="t-plan">Localización de consultas</h2>
+      </div>
+      <p class="texto-ayuda">El optimizador usa las restricciones de cada fragmento para no consultar los nodos que no tienen los datos.</p>
+      <form id="form-plan" class="fila-form">
+        <label for="plan-sucursal">Ventas de</label>
+        <select id="plan-sucursal">
+          <option value="todas">Toda la cadena</option>
+        </select>
+        <button class="btn" type="submit">Ver plan</button>
+      </form>
+      <div id="plan-nodos" class="plan-nodos"></div>
+      <pre id="plan-sql" class="codigo mono" aria-label="Consulta"></pre>
+      <pre id="plan-texto" class="codigo codigo-plan mono" aria-label="Plan de ejecucion"></pre>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis" aria-label="Indicadores">
+      <div class="kpi"><span class="kpi-etq">Ventas registradas</span><span id="kpi-ventas" class="kpi-valor">–</span></div>
+      <div class="kpi"><span class="kpi-etq">Monto total</span><span id="kpi-monto" class="kpi-valor">–</span></div>
+      <div class="kpi"><span class="kpi-etq">Ticket promedio</span><span id="kpi-ticket" class="kpi-valor">–</span></div>
+      <div class="kpi"><span class="kpi-etq">Productos bajo stock mínimo</span><span id="kpi-stock" class="kpi-valor">–</span></div>
+    </section>
+
+    <!-- Ventas por mes -->
+    <section class="panel panel-mes" aria-labelledby="t-mes">
+      <div class="panel-cabeza">
+        <h2 id="t-mes">Ventas por mes y región</h2>
+        <button class="btn btn-fantasma btn-chico" type="button" data-alternar="tabla-mes">Ver tabla</button>
+      </div>
+      <div id="leyenda-mes" class="leyenda"></div>
+      <div id="grafica-mes" class="grafica"></div>
+      <div id="tabla-mes" class="tabla-alterna" hidden></div>
+    </section>
+
+    <!-- Monto por region -->
+    <section class="panel panel-region" aria-labelledby="t-region">
+      <div class="panel-cabeza">
+        <h2 id="t-region">Monto por región</h2>
+      </div>
+      <div id="grafica-region" class="grafica"></div>
+      <div id="tabla-region" class="tabla-region"></div>
+    </section>
+
+    <!-- Registrar venta -->
+    <section class="panel panel-venta" aria-labelledby="t-venta">
+      <div class="panel-cabeza">
+        <h2 id="t-venta">Registrar venta</h2>
+        <span class="nota mono">registrar_venta()</span>
+      </div>
+      <form id="form-venta" class="form-venta">
+        <div class="campos">
+          <label>Sucursal
+            <select id="venta-sucursal" required></select>
+          </label>
+          <label>Método de pago
+            <select id="venta-metodo">
+              <option>Efectivo</option>
+              <option>Tarjeta</option>
+              <option>Transferencia</option>
+            </select>
+          </label>
+        </div>
+        <div id="venta-items" class="items"></div>
+        <div class="fila-acciones">
+          <button id="btn-agregar-item" class="btn btn-fantasma" type="button">+ Producto</button>
+          <span id="venta-total" class="venta-total mono"></span>
+          <button class="btn btn-primario" type="submit">Guardar venta</button>
+        </div>
+        <p id="venta-mensaje" class="mensaje" role="status"></p>
+      </form>
+    </section>
+
+    <!-- Ventas recientes -->
+    <section class="panel panel-recientes" aria-labelledby="t-recientes">
+      <div class="panel-cabeza">
+        <h2 id="t-recientes">Ventas recientes</h2>
+        <span class="nota">vista global <span class="mono">venta</span></span>
+      </div>
+      <div id="tabla-recientes"></div>
+    </section>
+
+    <!-- Top productos -->
+    <section class="panel panel-top" aria-labelledby="t-top">
+      <div class="panel-cabeza">
+        <h2 id="t-top">Productos más vendidos</h2>
+        <span class="nota">unidades, toda la cadena</span>
+      </div>
+      <div id="grafica-top" class="grafica"></div>
+    </section>
+
+    <!-- Stock bajo -->
+    <section class="panel panel-stock" aria-labelledby="t-stock">
+      <div class="panel-cabeza">
+        <h2 id="t-stock">Alertas de inventario</h2>
+        <span class="nota">existencia &lt; stock mínimo</span>
+      </div>
+      <div id="tabla-stock" class="tabla-scroll"></div>
+    </section>
+
+    <!-- Catalogo replicado -->
+    <section class="panel panel-catalogo" aria-labelledby="t-catalogo">
+      <div class="panel-cabeza">
+        <h2 id="t-catalogo">Catálogo replicado</h2>
+        <span class="nota">Lee una copia, escribe en las tres (ROWA)</span>
+      </div>
+      <form id="form-precio" class="fila-form">
+        <label for="precio-producto">Cambiar precio de</label>
+        <select id="precio-producto"></select>
+        <label for="precio-valor" class="sr">Nuevo precio</label>
+        <input id="precio-valor" type="number" min="0.01" step="0.01" placeholder="Nuevo precio" required>
+        <button class="btn btn-primario" type="submit">Replicar en 3 nodos</button>
+      </form>
+      <p id="precio-mensaje" class="mensaje" role="status"></p>
+      <div id="tabla-catalogo" class="tabla-scroll tabla-alta"></div>
+    </section>
+  </main>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>

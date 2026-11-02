@@ -1,0 +1,90 @@
+# Levanta los 4 nodos de la base distribuida SuperAhorro y el panel web
+# Uso:  docker compose up -d --build --wait     |  Apagar: docker compose down
+# Al crearse, cada nodo ejecuta sus scripts automaticamente (docker-entrypoint-initdb.d).
+# El central espera a que los 3 regionales esten listos antes de correr 03 y 06.
+# Panel: http://localhost:8080
+# Puertos cambiables si ya estan ocupados, p. ej.:  $env:PUERTO_NORTE=5441; docker compose up -d
+x-healthcheck: &healthcheck
+  # -h 127.0.0.1: el servidor temporal de inicializacion no escucha por TCP,
+  # asi que el nodo solo se reporta sano cuando ya termino de cargar sus scripts
+  test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d $${POSTGRES_DB}"]
+  interval: 3s
+  timeout: 3s
+  retries: 40
+
+services:
+  nodo_norte:
+    image: postgres:16-alpine
+    container_name: nodo_norte
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nodo_norte
+    ports:
+      - "${PUERTO_NORTE:-5433}:5432"
+    volumes:
+      - ./scripts/01_esquema_norte.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./scripts/02_datos_norte.sql:/docker-entrypoint-initdb.d/02_datos.sql:ro
+    healthcheck: *healthcheck
+
+  nodo_centro:
+    image: postgres:16-alpine
+    container_name: nodo_centro
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nodo_centro
+    ports:
+      - "${PUERTO_CENTRO:-5434}:5432"
+    volumes:
+      - ./scripts/01_esquema_centro.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./scripts/02_datos_centro.sql:/docker-entrypoint-initdb.d/02_datos.sql:ro
+    healthcheck: *healthcheck
+
+  nodo_sur:
+    image: postgres:16-alpine
+    container_name: nodo_sur
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nodo_sur
+    ports:
+      - "${PUERTO_SUR:-5435}:5432"
+    volumes:
+      - ./scripts/01_esquema_sur.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./scripts/02_datos_sur.sql:/docker-entrypoint-initdb.d/02_datos.sql:ro
+    healthcheck: *healthcheck
+
+  nodo_central:
+    image: postgres:16-alpine
+    container_name: nodo_central
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: nodo_central
+    ports:
+      - "${PUERTO_CENTRAL:-5436}:5432"
+    volumes:
+      - ./scripts/03_central.sql:/docker-entrypoint-initdb.d/03_central.sql:ro
+      - ./scripts/06_escrituras_central.sql:/docker-entrypoint-initdb.d/06_escrituras_central.sql:ro
+    healthcheck: *healthcheck
+    depends_on:
+      nodo_norte:
+        condition: service_healthy
+      nodo_centro:
+        condition: service_healthy
+      nodo_sur:
+        condition: service_healthy
+
+  # Panel web: solo se conecta al nodo central (transparencia de distribucion)
+  panel:
+    build: ./app
+    image: superahorro-panel
+    container_name: superahorro_panel
+    environment:
+      PGHOST: nodo_central
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: admin
+      PGDATABASE: nodo_central
+    ports:
+      - "${PUERTO_PANEL:-8080}:3000"
+    depends_on:
+      nodo_central:
+        condition: service_healthy
